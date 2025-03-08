@@ -1,8 +1,8 @@
 import java.io.IOException;
 import java.util.Scanner;
 public class BrainFuck {
-	public static byte[] stream = new byte[30000];
-	public static int dp = 0;
+    public static byte[] stream = new byte[30000];
+    public static int dp = 0;
     public static void main(String[] args) {
     	Scanner scnr = new Scanner(System.in);
     	while(scnr.hasNextLine()) {
@@ -17,7 +17,7 @@ public class BrainFuck {
     	
     }
     
-    public static void interpret(String data) {
+    public static void interpret(String data) {//intentional by design.
     	int pos1 = 0;
     	int pos2 = 0;
     	int i = 0;
