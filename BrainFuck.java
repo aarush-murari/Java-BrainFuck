@@ -1,8 +1,11 @@
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.Scanner;
 public class BrainFuck {
     public static byte[] stream = new byte[30000];
     public static int dp = 0;
+    public static LinkedList<Character> instructions= new LinkedList<Character>();
+    public static int pc = 0;
     public static void main(String[] args) {
     	Scanner scnr = new Scanner(System.in);
     	while(scnr.hasNextLine()) {
@@ -23,8 +26,11 @@ public class BrainFuck {
     	int i = 0;
     	Scanner bfScnr = new Scanner(System.in);
     	while (i < data.length()) {
-    		
-    		char token = data.charAt(i);
+    		instructions.add(data.charAt(i));
+    		i++;
+    	}	
+    	for (pc = pc; pc < instructions.size(); pc++) {
+    		char token = instructions.get(pc);
     		switch (token) {
     		
 	    		case '>':
@@ -60,16 +66,15 @@ public class BrainFuck {
 					}
 					break;
 	    		case '[':
-	    			pos1 = i;
+	    			pos1 = pc;
 	    			break;
 	    		case ']':
 	    			if (stream[dp] != 0) {
-	    				i = pos1;
+	    				pc = pos1;
 	    				continue;
 	    			}
 	    			break;
     		}
-    		i++;
     		
     	}
     }
