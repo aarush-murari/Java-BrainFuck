@@ -1,5 +1,3 @@
-package bfJava;
-
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -26,21 +24,45 @@ public class BrainFuck {
     	}
     	
     }
+    private static boolean isValid(char testChar) {
+		String validChars = " +-<>.,[]";
+    	if (validChars.contains(String.valueOf(testChar))) {
+    		return true;
+    	}
+		return false;
+	}
+
     public static void remove(int pos1, int pos2) {
     	for (int i = pos1; i < pos2; i++) {
     		//System.out.println(instructions);
-    		instructions.remove();
+    		popStack();
     	}
     }
+    
+    
+    public static void popPc() {
+		instructions.remove(pc);
+		pc--;
+    }
+    public static void popStack() {
+    	instructions.remove();
+    	pc--;
+    }
+    
+    
     public static void interpret(String data) {//intentional by design.
     	
     	int i = 0;
     	Scanner bfScnr = new Scanner(System.in);
     	while (i < data.length()) {
-    		instructions.add(data.charAt(i));
+    		char instructionChar = data.charAt(i);
+    		if (isValid(instructionChar)) {
+    			instructions.add(instructionChar);
+    			//System.out.println(pc + " " + instructions.size());
+    		}
     		i++;
     	}	
-    	for (pc = pc; pc < instructions.size(); pc++) {
+    	for (pc = pc; pc < instructions.size();pc++) {
     		char token = instructions.get(pc);
     		switch (token) {
     		
@@ -50,7 +72,7 @@ public class BrainFuck {
 	    				dp = 0;
 	    			}
 	    			if (shouldIPop) {
-	    				instructions.remove(pc);
+	    				popPc();
 	    			}
 	    			break;
 	    		case '<':
@@ -59,25 +81,25 @@ public class BrainFuck {
 	    				dp = stream.length - 1;
 	    			}
 	    			if (shouldIPop) {
-	    				instructions.remove(pc);
+	    				popPc();
 	    			}
 	    			break;
 	    		case '+':
 	    			stream[dp] += 1;
 	    			if (shouldIPop) {
-	    				instructions.remove(pc);
+	    				popPc();
 	    			}
 	    			break;
 	    		case '-':
 	    			stream[dp] -= 1;
 	    			if (shouldIPop) {
-	    				instructions.remove(pc);
+	    				popPc();
 	    			}
 	    			break;
 	    		case '.':
 	    			System.out.print((char)stream[dp]);
 	    			if (shouldIPop) {
-	    				instructions.remove(pc);
+	    				popPc();
 	    			}
 	    			break;
 	    		case ',':
@@ -91,7 +113,7 @@ public class BrainFuck {
 						e.printStackTrace();
 					}
 					if (shouldIPop) {
-	    				instructions.remove(pc);
+						popPc();
 	    			}
 					break;
 	    		case '[':
@@ -101,15 +123,15 @@ public class BrainFuck {
 	    		case ']':
 	    			if (stream[dp] != 0) {
 	    				pc = pos1;
-	    				continue;
+	    				break;
 	    			}
 	    			shouldIPop = true;
 	    			remove(pos1, pc);
-	    			break;
+	    			continue;
     		}
     		
     	}
     }
-
+	
 	
 }
